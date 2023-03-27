@@ -19,26 +19,30 @@ const AdminNavbar = () => {
     { name: "Logout", link: "/", icon: MdOutlineLogout },
   ];
   const [open, setOpen] = useState(true);
-  console.log(open);
+
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 640) {
         setOpen(false);
-      }
-      if (window.innerWidth > 640) {
+      } else {
         setOpen(true);
       }
     }
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  
+
+  
   return (
     <section className="flex ">
       <div
-        className={`bg-[#0e0e0e] min-h-screen ${
-          open ? "w-2/10" : "w-16"
-        } duration-500 text-gray-100 px-4 `}
+        className={`bg-gray-200 min-h-screen ${
+          open ? "w-[200px]" : "w-14"
+        } duration-500 text-gray-900 px-4 `}
       >
+        <div className="lg:hidden"> 
         <div className="py-3 flex justify-end">
           <HiMenuAlt3
             size={26}
@@ -46,13 +50,19 @@ const AdminNavbar = () => {
             onClick={() => setOpen(!open)}
           />
         </div>
+        </div>
+        <div className="text-lg font-semibold hidden lg:block p-3">
+          EduCampus
+        </div>
+
+
 
         <div className="mt-4 flex flex-col gap-4 relative">
           {menus?.map((menu, i) => (
             <Link
               to={menu?.link}
               key={i}
-              className=" group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-teal-800 rounded-2xl"
+              className=" group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-green-200 rounded-2xl"
             >
               <div>{React.createElement(menu?.icon, { size: "20" })}</div>
               <h2
@@ -82,3 +92,5 @@ const AdminNavbar = () => {
 };
 
 export default AdminNavbar;
+
+
