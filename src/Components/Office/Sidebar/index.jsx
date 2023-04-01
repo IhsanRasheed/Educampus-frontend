@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { RiCustomerService2Line } from "react-icons/ri";
-import { BsBuildingAdd } from "react-icons/bs";
-import { AiOutlineSchedule } from "react-icons/ai";
+import { GiTeacher } from "react-icons/gi";
+import { MdPeople } from "react-icons/md";
+import { MdPayment} from "react-icons/md";
 import { MdOutlineLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -13,9 +13,9 @@ const AdminNavbar = () => {
   const menus = [
     { name: "Dashboard", link: "/admin", icon: MdOutlineDashboard },
     { name: "Batches", link: "/", icon: AiOutlineUsergroupAdd },
-    { name: "Teachers", link: "/", icon: RiCustomerService2Line },
-    { name: "Students", link: "/", icon: BsBuildingAdd },
-    { name: "Payments", link: "/", icon: AiOutlineSchedule },
+    { name: "Teachers", link: "/", icon: GiTeacher },
+    { name: "Students", link: "/", icon: MdPeople},
+    { name: "Payments", link: "/", icon:MdPayment },
     { name: "Logout", link: "/", icon: MdOutlineLogout },
   ];
   const [open, setOpen] = useState(true);

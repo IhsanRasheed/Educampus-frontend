@@ -1,16 +1,16 @@
 import React from 'react'
 import Logo from '../../Components/Logo'
-import Body from '../../Components/Office/Body/Body'
+import Login from '../../Components/Office/Login'
 
-function Login() {
+function OfficeLogin() {
   return (
     <div>
         <div  >
         <Logo LogoClass={'m-3'} />
         </div>
-        <Body/>
+        <Login/>
     </div>
   )
 }
 
-export default Login
+export default OfficeLogin

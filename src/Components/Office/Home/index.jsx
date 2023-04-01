@@ -14,7 +14,7 @@ function Home() {
                 <div className="me-2">
                   <p className="text-xl text-gray-600 uppercase leading-4">Batches</p>
                 </div>
-                <p className="text-green-400 text-2xl leading-none mb-0">ggg</p>
+                <p className="text-green-400 text-2xl leading-none mb-0">00</p>
               </div>
             </div>
           </div>
@@ -24,7 +24,7 @@ function Home() {
                 <div className="me-2">
                   <p className="text-sm text-gray-600 uppercase leading-4">Teachers</p>
                 </div>
-                <p className="text-green-400 text-2xl leading-none mb-0">gg</p>
+                <p className="text-green-400 text-2xl leading-none mb-0">00</p>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@ function Home() {
                 <div className="me-2">
                   <p className="text-sm text-gray-600 uppercase leading-4">Students</p>
                 </div>
-                <p className="text-green-400 text-2xl leading-none mb-0">fff</p>
+                <p className="text-green-400 text-2xl leading-none mb-0">00</p>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@ function Home() {
                 <div className="me-2">
                   <p className="text-sm text-gray-600 uppercase leading-4">Active Batches</p>
                 </div>
-                <p className="text-green-400 text-2xl leading-none mb-0">ff</p>
+                <p className="text-green-400 text-2xl leading-none mb-0">0</p>
               </div>
             </div>
           </div>
@@ -60,35 +60,35 @@ function Home() {
           <div className="flex justify-between flex-nowrap" style={{ whiteSpace: 'nowrap' }}>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Order id</span>
-              <span className="text-gray-900" >jj</span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Invoice</span>
-              <span className="text-gray-900" >hh</span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Receipt</span>
-              <span className="text-gray-900" >g</span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Amount</span>
-              <span className="text-gray-900" >dd</span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Id</span>
-              <span className="text-gray-900" >d</span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Name</span>
-              <span className="text-gray-900" >d</span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Type</span>
-              <span className="text-gray-900" ></span>
+              <span className="text-gray-900" >-</span>
             </div>
             <div className="mx-2 flex flex-col gap-5">
               <span className="text-gray-500" >Date</span>
-              <span className="text-gray-900" >d</span>
+              <span className="text-gray-900" >-</span>
             </div>
           </div>
         </div>

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { officeLoginAPI } from "../../../Services/OfficeService";
+import Cookies from "js-cookie";
 
 function Login() {
+  // const token = localStorage.getItem('admin')
+
   const [error, setError] = useState("");
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
@@ -16,12 +19,22 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+
+
+    // const headers = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+
     officeLoginAPI(formValues).then((response) => {
       if(response.data.status) {
-        navigate('/office/home')
+        // localStorage.setItem('admin',response.data.token)
+        Cookies.set('Admin', response.data.token, { expires: 7000 });
+       navigate('/office/home')
       }else{
         setError(response.data.errors)
-
       }
 
 

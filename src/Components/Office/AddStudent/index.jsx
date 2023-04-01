@@ -1,44 +1,49 @@
 import React, { useState } from "react";
 import { Input, Select, Option } from "@material-tailwind/react";
 import { addStudentAPI } from "../../../Services/OfficeService";
-
-const generatePassword = (length) => {
-  const charset =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let password = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
-  }
-  return password;
-};
+import validate from "./studentValidation";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { StateDropdown, RegionDropdown } from 'react-indian-state-region-selector';
 
 function AddStudent() {
-  const initialValues = {
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
-    dateOfBirth: "",
-    gender: "",
-    parentName: "",
-    parentPhone: "",
-    education: "",
-    institute: "",
-    batch: "",
-    houseName: "",
-    place: "",
-    post: "",
-    pin: "",
-    district: "",
-    state: "",
-  };
+
+  const [state, setState] = useState('');
+  const [region, setRegion] = useState('');
+ 
+  const selectState = (val) => {
+    setState(val);
+  }
+ 
+  const selectRegion = (val) => {
+    setRegion(val);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  const initialValues = { name: "",phone: "",email: "",dateOfBirth: "",gender: "",parentName: "",
+                          parentPhone: "",education: "",institute: "", university: "",batch: "",
+                          houseName: "",place: "", post: "",pin: "",district: "",state: "",file: null };
+
+                         
 
   const [formValues, setFormvalues] = useState(initialValues);
+  const [imageURL, setImageURL] = useState(null);
   const [error, setErrors] = useState({});
+  const [imageError,setImageError] = useState("");
+  const navigate = useNavigate();
 
   const [value] = useState(null);
-
+  console.log(formValues)
   const onChangeHandle = (e) => {
     if (e.target) {
       const { name, value } = e.target;
@@ -52,37 +57,32 @@ function AddStudent() {
     }
   };
 
-  // function onChangeHandle(e) {
-  //   if (e && e.target && e.target.name) {
-  //     console.log('hi')
-  //     console.log(e)
-  //     const { name, value } = e.target
-  //     setFormvalues({ ...formValues, [name]: value });
-  //     setErrors({ ...error, [name]: "" });
-  //   }
-  // }
+  const handleFileChange = (event) => {
+    setFormvalues({ ...formValues, file: event.target.files[0] });
 
-  console.log(formValues);
-  const handleSubmit = (event) => {
+    const imageURL = URL.createObjectURL(event.target.files[0]);
+    setImageURL(imageURL);
+    setImageError("");
+    setErrors({ ...error, file: null });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const password = generatePassword(8); 
-    setFormvalues({ ...formValues, password });
 
     const data = new FormData();
 
     data.append("name", formValues.name);
     data.append("phone", formValues.phone);
     data.append("email", formValues.email);
-    data.append("password", formValues.password)
     data.append("dateOfBirth", formValues.dateOfBirth);
     data.append("gender", formValues.gender);
     data.append("parentName", formValues.parentName);
     data.append("parentPhone", formValues.parentPhone);
     data.append("education", formValues.education);
     data.append("institute", formValues.institute);
+    data.append("university", formValues.university);
     data.append("batch", formValues.batch);
-    data.append("houseName", formValues.house_name);
+    data.append("houseName", formValues.houseName);
     data.append("place", formValues.place);
     data.append("post", formValues.post);
     data.append("pin", formValues.pin);
@@ -90,13 +90,42 @@ function AddStudent() {
     data.append("state", formValues.state);
     data.append("file", formValues.file);
 
-    addStudentAPI(formValues)
-      .then((resp) => {
-        console.log(resp);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const errors = validate(formValues);
+
+    
+
+    if (Object.keys(errors).length !== 0) {
+      toast(errors.message);
+    } else {
+      const headers = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      addStudentAPI(data, headers)
+        .then((resp) => {
+          if (resp.data.imageError) {
+            setImageError(resp.data.imageError);
+            toast(imageError);
+          } else {
+            navigate("/office/home");
+            toast.success("Student added successfully", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -249,23 +278,53 @@ function AddStudent() {
                     </div>
                   </div>
 
-                  {/* <div className="w-full lg:w-4/12 px-4 text-gray-500">
-                  <div className="relative w-full mb-3">
-                    <div className="form-outline input-group-lg">
-                      <input
-                        type="file"
-                        id="profile"
-                        name="profile"
-                        className="form-control"
-                        accept="image/png, image/jpg, image/jpeg"
-                        required
-                      />
-                    </div>
-                    <div className="form-text text-sm">
-                      Max. 1MB size (500 X 500 ratio recommended)
+                  <div className="w-full lg:w-4/12 px-4 text-gray-800">
+                    <div className="relative w-full mb-3">
+                      <div className="form-outline input-group-lg">
+                        <input
+                          name="file"
+                          onChange={handleFileChange}
+                          type="file"
+                          id="formFile"
+                          className="form-control"
+                          accept="image/png, image/jpg, image/jpeg"
+                        />
+                      </div>
+                      <div className="form-text text-sm  text-gray-500">
+                        Max. 1MB size (500 X 500 ratio recommended)
+                      </div>
+
+                      <div
+                        className="border border-1 mx-auto p-2"
+                        style={{ width: "fit-content" }}
+                      >
+                        {imageURL ? (
+                          <img
+                            src={imageURL}
+                            alt="profile"
+                            width="150px"
+                            height="150px"
+                            id="profile-preview"
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div
+                            className="border border-1 mx-auto p-2"
+                            style={{ width: "fit-content" }}
+                          >
+                            <img
+                              src="https://res.cloudinary.com/dgmz2jv6j/image/upload/v1679984478/EduCampus/student/user-add_opfqaa.svg"
+                              alt="profile"
+                              width="150px"
+                              height="150px"
+                              id="profile-preview"
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div> */}
                 </div>
                 <p className="p-4 text-gray-700">Address</p>
                 <div className="flex flex-wrap">
@@ -317,16 +376,6 @@ function AddStudent() {
                   <div className="w-full lg:w-4/12 px-4">
                     <div className="relative w-full mb-3">
                       <Input
-                        label="District"
-                        value={formValues.district}
-                        onChange={onChangeHandle}
-                        name="district"
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <Input
                         label="State"
                         value={formValues.state}
                         onChange={onChangeHandle}
@@ -334,6 +383,34 @@ function AddStudent() {
                       />
                     </div>
                   </div>
+
+                  <div className="w-full lg:w-4/12 px-4">
+                    <div className="relative w-full mb-3">
+                      <Input
+                        label="District"
+                        value={formValues.district}
+                        onChange={onChangeHandle}
+                        name="district"
+                      />
+                    </div>
+                  </div>
+
+
+
+                  <div>
+      <StateDropdown
+        value={state}
+        onChange={(val) => selectState(val)} />
+      <RegionDropdown
+        state={state}
+        value={region}
+        onChange={(val) => selectRegion(val)} />
+    </div>
+
+
+
+
+                 
                 </div>
 
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
