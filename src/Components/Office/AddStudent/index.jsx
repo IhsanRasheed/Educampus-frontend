@@ -1,45 +1,22 @@
 import React, { useState } from "react";
 import { Input, Select, Option } from "@material-tailwind/react";
 import { addStudentAPI } from "../../../Services/OfficeService";
-import validate from "./studentValidation";
+import validate from "./StudentValidation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { StateDropdown, RegionDropdown } from 'react-indian-state-region-selector';
-
-function AddStudent() {
-
-  const [state, setState] = useState('');
-  const [region, setRegion] = useState('');
- 
-  const selectState = (val) => {
-    setState(val);
-  }
- 
-  const selectRegion = (val) => {
-    setRegion(val);
-  }
 
 
 
-
-
-
-
-
-
-
-
+function AddStudents() {
 
   const initialValues = { name: "",phone: "",email: "",dateOfBirth: "",gender: "",parentName: "",
                           parentPhone: "",education: "",institute: "", university: "",batch: "",
-                          houseName: "",place: "", post: "",pin: "",district: "",state: "",file: null };
+                          house_name: "",place: "", post: "",pin: "",district: "",state: "",file: null };
 
                          
 
   const [formValues, setFormvalues] = useState(initialValues);
   const [imageURL, setImageURL] = useState(null);
-  const [error, setErrors] = useState({});
-  const [imageError,setImageError] = useState("");
   const navigate = useNavigate();
 
   const [value] = useState(null);
@@ -48,12 +25,11 @@ function AddStudent() {
     if (e.target) {
       const { name, value } = e.target;
       setFormvalues({ ...formValues, [name]: value });
-      setErrors({ ...error, [name]: "" });
+
     } else {
       const [value] = [e];
       const name = "gender";
       setFormvalues({ ...formValues, [name]: value });
-      setErrors({ ...error, [name]: "" });
     }
   };
 
@@ -62,14 +38,13 @@ function AddStudent() {
 
     const imageURL = URL.createObjectURL(event.target.files[0]);
     setImageURL(imageURL);
-    setImageError("");
-    setErrors({ ...error, file: null });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const data = new FormData();
+    console.log(data)
 
     data.append("name", formValues.name);
     data.append("phone", formValues.phone);
@@ -82,7 +57,7 @@ function AddStudent() {
     data.append("institute", formValues.institute);
     data.append("university", formValues.university);
     data.append("batch", formValues.batch);
-    data.append("houseName", formValues.houseName);
+    data.append("house_name", formValues.houseName);
     data.append("place", formValues.place);
     data.append("post", formValues.post);
     data.append("pin", formValues.pin);
@@ -106,8 +81,7 @@ function AddStudent() {
       addStudentAPI(data, headers)
         .then((resp) => {
           if (resp.data.imageError) {
-            setImageError(resp.data.imageError);
-            toast(imageError);
+            toast(resp.data.imageError);
           } else {
             navigate("/office/home");
             toast.success("Student added successfully", {
@@ -121,7 +95,7 @@ function AddStudent() {
               theme: "light",
             });
           }
-        })
+        })  
         .catch((error) => {
           console.log(error);
         });
@@ -332,7 +306,7 @@ function AddStudent() {
                     <div className="relative w-full mb-3">
                       <Input
                         label="House Name"
-                        value={formValues.houseName}
+                        value={formValues.house_name}
                         onChange={onChangeHandle}
                         name="houseName"
                       />
@@ -394,22 +368,6 @@ function AddStudent() {
                       />
                     </div>
                   </div>
-
-
-
-                  <div>
-      <StateDropdown
-        value={state}
-        onChange={(val) => selectState(val)} />
-      <RegionDropdown
-        state={state}
-        value={region}
-        onChange={(val) => selectRegion(val)} />
-    </div>
-
-
-
-
                  
                 </div>
 
@@ -429,4 +387,4 @@ function AddStudent() {
   );
 }
 
-export default AddStudent;
+export default AddStudents;

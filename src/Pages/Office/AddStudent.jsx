@@ -1,16 +1,14 @@
 import React from 'react'
-import AddStudent from '../../Components/Office/AddStudent'
 import Sidebar from '../../Components/Office/Sidebar'
-// import StudentPartial from '../../Components/Office/Partials/Student'
+import AddStudents from '../../Components/Office//AddStudent'
 
-function AddStudents() {
+function AddStudent() {
   return (
     <div className='flex'>
       <Sidebar/>
-      {/* <StudentPartial/> */}
-      <AddStudent/>
+      <AddStudents/>
     </div>
   )
 }
 
-export default AddStudents
+export default AddStudent

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Landing from "./Pages/Landing/Landing";
 import OfficeRoutes from "./Routes/OfficeRoutes";
 import StudentRoutes from "./Routes/StudentRoutes";
+import CommonRoutes from "./Routes/CommonRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,6 +13,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/*" element={<CommonRoutes />}></Route>
           <Route path="/office/*" element={<OfficeRoutes />} />
           <Route path="/student/*" element={<StudentRoutes />} />
         </Routes>
